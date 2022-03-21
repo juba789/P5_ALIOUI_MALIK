@@ -15,8 +15,15 @@ function addProductes(data){
  
      
      const {_id,imageUrl,altTxt,name,description}= data[0]
+     appendElementsToArticle(article,image,h3,p)
      
      
  
  }
+
+ function appendElementsToArticle(article,image,h3,p){
+    article.appendChild(image)
+    article.appendChild(h3)
+    article.appendChild(p)
+}
    
