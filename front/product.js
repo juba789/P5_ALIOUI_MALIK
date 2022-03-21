@@ -29,6 +29,7 @@ createImage(imageUrl,altTxt)
 createTitle(name)
 createPrice(price)
 createDescription(description)
+createColors(colors)
 console.log(Kanap)
   }
 
@@ -62,4 +63,13 @@ document.querySelector("#description").textContent=description
 
 }
 
-
+function createColors(colors){
+    const select =document.querySelector("#colors")
+    colors.forEach(color => {
+        const option =document.createElement("option")
+        option.value=color
+        option.textContent=color
+        select.appendChild(option)
+        console.log(color)
+    });
+}
