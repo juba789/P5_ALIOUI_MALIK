@@ -1,6 +1,8 @@
 const string =window.location.search              /*window.location.search affiche la requete http avec ?*/
 const urlParam = new URLSearchParams(string)      /* URLSearchParams nous permet de pouvoir la decortiquer */
-const id =  urlParam.get("id")                    /* avec get("id")nous demandons l'id de cette requete*/
+const id =  urlParam.get("id") 
+                  /* avec get("id")nous demandons l'id de cette requete*/
+let itemPrice = 0                  
 
 fetch(`http://localhost:3000/api/products/${id}`)   /*avec fetch et l'id nous demandons toutes les information liées à la page de l'id*/
 .then(rep=>rep.json())
@@ -14,7 +16,7 @@ name: "Kanap Sinopé"
 price: 1849
 _id: "107fb5b75607497b96722bda5b504926" */
 
-
+ 
 
 function initReponse(Kanap){
 const altTxt = Kanap.altTxt
@@ -24,7 +26,7 @@ const imageUrl = Kanap.imageUrl
 const name = Kanap.name
 const price = Kanap.price
 const _id = Kanap._id
-
+itemPrice =price
 createImage(imageUrl,altTxt)
 createTitle(name)
 createPrice(price)
@@ -73,3 +75,25 @@ function createColors(colors){
         console.log(color)
     });
 }
+
+const button = document.querySelector("#addToCart")
+
+button.addEventListener("click", (e)=>{
+const color =document.querySelector("#colors").value
+const quantity =document.querySelector("#quantity").value
+if(color==null || color===''|| quantity==null ||quantity== 0){ 
+alert("Veuillez choisir une couleur et la quantité !!")
+  }
+else{
+ const infoStorage ={
+id:id,
+color:color,
+quantity: Number(quantity),  /* Number transforme une chaine de caractére en nombre*/
+price:itemPrice,
+
+ }
+localStorage.setItem(id,JSON.stringify(infoStorage))
+window.location.href="cart.html"    /* au clic avec addEventListener on sera dirigé vers cat.html grace à window.location
+                                     et son attribut href*/
+  }
+})
