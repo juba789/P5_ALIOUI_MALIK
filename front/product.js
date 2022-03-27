@@ -2,7 +2,8 @@ const string =window.location.search              /*window.location.search affic
 const urlParam = new URLSearchParams(string)      /* URLSearchParams nous permet de pouvoir la decortiquer */
 const id =  urlParam.get("id") 
                   /* avec get("id")nous demandons l'id de cette requete*/
-let itemPrice = 0                  
+let itemPrice = 0   
+let imgUrl,altText =               
 
 fetch(`http://localhost:3000/api/products/${id}`)   /*avec fetch et l'id nous demandons toutes les information liées à la page de l'id*/
 .then(rep=>rep.json())
@@ -27,6 +28,8 @@ const name = Kanap.name
 const price = Kanap.price
 const _id = Kanap._id
 itemPrice =price
+imgUrl=imageUrl
+altText=altTxt
 createImage(imageUrl,altTxt)
 createTitle(name)
 createPrice(price)
@@ -90,10 +93,12 @@ id:id,
 color:color,
 quantity: Number(quantity),  /* Number transforme une chaine de caractére en nombre*/
 price:itemPrice,
+altTxt:altText,
+imageUrl:imgUrl,
 
  }
 localStorage.setItem(id,JSON.stringify(infoStorage))
-window.location.href="cart.html"    /* au clic avec addEventListener on sera dirigé vers cat.html grace à window.location
+window.location.href="cart.html"    /* au clic avec addEventListener on sera dirigé vers cart.html grace à window.location
                                      et son attribut href*/
   }
 })
