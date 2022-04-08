@@ -60,23 +60,44 @@ function makeSettings(item){
 const settings =document.createElement("div")
 settings.classList.add("cart__item__content__settings")
 placeElementToSettings(settings,item)
-placeDeleteToSettings(settings)
+placeDeleteToSettings(settings,item)
 
 return settings
 
 }
 
-function placeDeleteToSettings(settings){
+function placeDeleteToSettings(settings,item){
 const div =document.createElement("div")
 div.classList.add("cart__item__content__settings__delete")
+div.addEventListener("click",()=>deleteItem(item))
 const p =document.createElement("p")
 p.classList.add("deleteItem")
 p.textContent="Supprimer"
 div.appendChild(p)
 settings.appendChild(div)
+}
 
+function deleteItem(item){
+const itemToDelete=cart.findIndex((element)=>element.id===item.id && element.color===item.color)
+cart.splice(itemToDelete,1)    /*avec splice j'enleve un élément à partir de l'élément à l'index 0*/
+console.log(cart)
+exposeTotalPrice()   
+exposeTotalQuantity()
+deleteToStorage(item)
+deleteArticleToDom(item)
+}
+
+function deleteArticleToDom(item){
+const articleToDelete=document.querySelector(`article[data-id="${item.id}"][data-color="${item.color}"]`)
+articleToDelete.remove()
 
 }
+
+function deleteToStorage(item) {
+const key = `${item.id}-${item.color}`
+localStorage.removeItem(key)
+}
+
 
 function placeElementToSettings(settings,item){
 const  quantity =document.createElement("div")
