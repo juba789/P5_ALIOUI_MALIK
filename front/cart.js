@@ -231,6 +231,7 @@ return false
 }
 
 
+
 function makeRequestBody(){
 const form=document.querySelector(".cart__order__form")
 const firstName=form.elements.firstName.value    /*form.elements récuoère les élément rempli dans un formulaire*/
