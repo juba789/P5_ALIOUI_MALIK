@@ -2,6 +2,9 @@ const cart =[]
 exposeItems ()
 cart.forEach((item)=>CreateItemsDOM(item))           /* une boucle qui affichera les article selon la fonction displayItemsDOM*/
 
+const orderButton=document.querySelector("#order")
+orderButton.addEventListener("click",(e)=>submitForm(e) )
+
 
 function exposeItems (){
     const numberOfItems = localStorage.length              /*la constante aura pour valeur le nombre d'article*/
@@ -174,7 +177,55 @@ function makeImageDiv(item){
     image.alt=item.altTxt
     div.appendChild(image)
     return div
+}
 
+function submitForm(e){
+    e.preventDefault()
+    if (cart.length===0) alert("Votre panier est vide")
 
+const body =makeRequestBody()
+fetch("http://localhost:3000/api/products/order",{
+    method:"POST",
+    body:JSON.stringify(body),
+    headers:{
+        "Content-type":"application/json"
+    }
+})
+.then(rep=>rep.json())
+.then((data)=>console.log(data))
+// console.log(form.elements)
+}
 
+function makeRequestBody(){
+const form=document.querySelector(".cart__order__form")
+const firstName=form.elements.firstName.value    /*form.elements récuoère les élément rempli dans un formulaire*/
+const lastName=form.elements.lastName.value
+const address=form.elements.address.value
+const city=form.elements.city.value
+const email=form.elements.email.value
+ const body ={    
+     contact: {
+       firstName: firstName,
+       lastName: lastName,
+       address: address,
+       city: city,
+       email: email,
+     },
+     products: idForCache()
+    
+  }
+
+return body
+}
+
+function idForCache(){
+const numberProducts= localStorage.length
+const ids =[]
+for (let i = 0; i < numberProducts; i++) {
+    const key = localStorage.key(i)
+   console.log(key) 
+   const id = key.split("-")[0]/* ici avec split je transforme les key en tableau et je lui demande de prendre l'élement 0 donc l'id*/
+   ids.push(id)
+}
+return ids
 }
