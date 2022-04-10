@@ -181,7 +181,13 @@ function makeImageDiv(item){
 
 function submitForm(e){
     e.preventDefault()
-    if (cart.length===0) alert("Votre panier est vide")
+    if (cart.length===0){
+        alert("Votre panier est vide") 
+        return
+    } 
+
+   if  (formAccept()) return
+   if  (emailAccept()) return
 
 const body =makeRequestBody()
 fetch("http://localhost:3000/api/products/order",{
@@ -192,9 +198,38 @@ fetch("http://localhost:3000/api/products/order",{
     }
 })
 .then(rep=>rep.json())
-.then((data)=>console.log(data))
-// console.log(form.elements)
+.then((data)=> {
+const orderId =data.orderId
+window.location.href="confirmation.html"+"?orderId="+orderId
+console.log(data)
+} )  
+
 }
+
+function emailAccept(){
+const email=document.querySelector("#email").value
+const regex =  /^[A-Za-z0-9+_.-]+@(.+)$/
+if ( regex.test(email)===false){
+    alert("email invalide")
+    return true
+}
+return false
+
+}
+
+function formAccept(){
+    const form =document.querySelector(".cart__order__form")
+    const inputs =document.querySelectorAll("input")
+    inputs.forEach( (input)=>{
+if (input.value===""){
+    alert("Veuillez remplir tous les champs")
+    return true
+}
+return false
+})
+
+}
+
 
 function makeRequestBody(){
 const form=document.querySelector(".cart__order__form")
