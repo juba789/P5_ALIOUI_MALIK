@@ -1,4 +1,4 @@
-const string =window.location.search              /*window.location.search affiche la requete http avec ?*/
+const string =window.location.search              /*window.location.search affiche la requete http avec ? et ce qui suit après*/
 const urlParam = new URLSearchParams(string)      /* URLSearchParams nous permet de pouvoir la decortiquer */
 const id =  urlParam.get("id") 
                   /* avec get("id")nous demandons l'id de cette requete*/
