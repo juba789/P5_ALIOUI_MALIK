@@ -6,7 +6,7 @@ const orderButton=document.querySelector("#order")
 orderButton.addEventListener("click",(e)=>submitForm(e) )
 
 
-function exposeItems (){
+   function exposeItems (){
     const numberOfItems = localStorage.length              /*la constante aura pour valeur le nombre d'article*/
     for ( i=0;i<localStorage.length;i++){
 
@@ -33,9 +33,9 @@ exposeTotalPrice(item)
 
 function exposeTotalQuantity(item){
 const totalQuantity =document.querySelector("#totalQuantity")
-const total =cart.reduce((total,item)=>total+item.quantity,0) /* je dis que pour chaque quantity je le rajoute au total en partant de 0*/
+const total =cart.reduce((total,item)=>Number(total)+Number(item.quantity),0) /* je dis que pour chaque quantity je le rajoute au total en partant de 0*/
 totalQuantity.textContent=total
-
+console.log(total)
 }
 
 function exposeTotalPrice(item){
@@ -188,7 +188,7 @@ function submitForm(e){
 
    if  (formAccept()) return
    if  (emailAccept()) return
-
+  
 const body =makeRequestBody()
 fetch("http://localhost:3000/api/products/order",{
     method:"POST",
@@ -205,7 +205,7 @@ console.log(data)
 } )  
 
 }
-
+  
 function emailAccept(){
 const email=document.querySelector("#email").value
 const regex =  /^[A-Za-z0-9+_.-]+@(.+)$/
@@ -265,3 +265,4 @@ for (let i = 0; i < numberProducts; i++) {
 }
 return ids
 }
+

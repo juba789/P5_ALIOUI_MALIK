@@ -2,6 +2,7 @@ const string =window.location.search              /*window.location.search affic
 const urlParam = new URLSearchParams(string)      /* URLSearchParams nous permet de pouvoir la decortiquer */
 const id =  urlParam.get("id") 
                   /* avec get("id")nous demandons l'id de cette requete*/
+                
 let itemPrice = 0   
 let imgUrl,altText,articleName =               
 
@@ -37,6 +38,7 @@ createPrice(price)
 createDescription(description)
 createColors(colors)
 console.log(Kanap)
+
   }
 
 
@@ -90,17 +92,53 @@ alert("Veuillez choisir une couleur et la quantité !!")
   }
 else{
   const key =`${id}-${color}`
- const infoStorage ={
+  const infoStorage ={
 id:id,
 color:color,
-quantity: Number(quantity),  /* Number transforme une chaine de caractére en nombre*/
+// quantity: Number(quantity),/* Number transforme une chaine de caractére en nombre*/
+quantity:quantityTotal(id),
 price:itemPrice,
 altTxt:altText,
 imageUrl:imgUrl,
 name:articleName,
+
 }
 localStorage.setItem(key,JSON.stringify(infoStorage))
-window.location.href="cart.html"    /* au clic avec addEventListener on sera dirigé vers cart.html grace à window.location
-                                     et son attribut href*/
+// window.location.href="cart.html"    /* au clic avec addEventListener on sera dirigé vers cart.html grace à window.location
+                                    //  et son attribut href*/
+console.log(infoStorage)
   }
 })
+// const product=(localStorage.key(1)) 
+
+function quantityTotal(id){
+const color =document.querySelector("#colors").value
+let quantity =document.querySelector("#quantity").value
+const keyProduct =`${id}-${color}`
+
+const newQuantity = ""
+// je pose la condition 
+ for (let i = 0; i < localStorage.length; i++) {
+  if (keyProduct==localStorage.key(i)) {
+const valueStorage = localStorage.getItem(localStorage.key(i));
+const obj = JSON.parse(valueStorage);
+console.log(obj)
+
+console.log(quantity)
+console.log(obj.quantity)
+const newQuantity =Number(quantity)+Number(obj.quantity)
+console.log(newQuantity)
+quantity=newQuantity
+
+
+  } else {
+    quantity=quantity
+  }
+  return quantity
+  
+} 
+  
+
+
+
+}
