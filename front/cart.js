@@ -186,8 +186,14 @@ function submitForm(e){
         return
     } 
 
-   if  (formAccept()) return
-   if  (emailAccept()) return
+//    if  (formAccept()) return 
+//    if  (emailAccept()) return
+
+if ( firstNameAccept()) return
+if ( lastNameAccept()) return
+if ( addressAccept()) return
+if ( cityAccept()) return
+if ( emailAccept()) return
   
 const body =makeRequestBody()
 fetch("http://localhost:3000/api/products/order",{
@@ -205,8 +211,81 @@ console.log(data)
 } )  
 
 }
-  
+function firstNameAccept(){
+    const firstName=document.getElementById('firstName')
+    const regexName=/^[A-zÃÃ-€º' -]*$/
+    let firstNameErrorMsg=document.getElementById('firstNameErrorMsg')
+    if(firstName.value==''){
+firstNameErrorMsg.innerHTML='le champs est requis'
+return true
+} 
+else if ( regexName.test(firstName.value)===false){  
+firstNameErrorMsg.innerHTML='le champs est incorrect'
+return true
+  }
+return false
+}
+function lastNameAccept(){
+    const lastName=document.getElementById('lastName')
+    const regexName= /^[A-zÃÃ-€º' -]*$/
+    let lastNameErrorMsg=document.getElementById('lastNameErrorMsg')
+    if(lastName.value==''){
+lastNameErrorMsg.innerHTML='le champs est requis'
+return true
+} 
+else if ( regexName.test(lastName.value)===false){  
+lastNameErrorMsg.innerHTML='le champs est incorrect'
+return true
+  }
+return false
+}
+function addressAccept(){
+    const address=document.getElementById('address')
+    const addressRegex = /([0-9]{1,}) ?([A-zÃÃ-€º,' -\. ]*)/
+    let addressErrorMsg=document.getElementById('addressErrorMsg')
+    if(address.value==''){
+addressErrorMsg.innerHTML='le champs est requis'
+return true
+} 
+else if ( addressRegex.test(address.value)===false){  
+addressErrorMsg.innerHTML='le champs est incorrect'
+return true
+  }
+return false
+}
+function cityAccept(){
+    const city=document.getElementById('city')
+    const regexName=/^[A-zÃÃ-€º' -]*$/
+    let cityErrorMsg=document.getElementById('cityErrorMsg')
+    if(city.value==''){
+cityErrorMsg.innerHTML='le champs est requis'
+return true
+} 
+else if ( regexName.test(city.value)===false){  
+cityErrorMsg.innerHTML='le champs est incorrect'
+return true
+  }
+return false
+}
 function emailAccept(){
+    const email=document.getElementById('email')
+    const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+
+    let emailErrorMsg=document.getElementById('emailErrorMsg')
+    if(email.value==''){
+emailErrorMsg.innerHTML='le champs est requis'
+return true
+} 
+else if ( emailRegex.test(email.value)===false){  
+emailErrorMsg.innerHTML='le champs est incorrect'
+return true
+  }
+return false
+}
+
+
+  
+/*function emailAccept(){
 const email=document.querySelector("#email").value
 const regex =  /^[A-Za-z0-9+_.-]+@(.+)$/
 if ( regex.test(email)===false){
@@ -217,7 +296,7 @@ return false
 
 }
 
-function formAccept(){
+ function formAccept(){
     const form =document.querySelector(".cart__order__form")
     const inputs =document.querySelectorAll("input")
     inputs.forEach( (input)=>{
@@ -228,7 +307,7 @@ if (input.value===""){
 return false
 })
 
-}
+} */
 
 
 
@@ -265,4 +344,3 @@ for (let i = 0; i < numberProducts; i++) {
 }
 return ids
 }
-

@@ -117,7 +117,11 @@ let quantity =document.querySelector("#quantity").value
 const keyProduct =`${id}-${color}`
 
 const newQuantity = ""
-// je pose la condition 
+
+  
+
+  
+
  for (let i = 0; i < localStorage.length; i++) {
   if (keyProduct==localStorage.key(i)) {
 const valueStorage = localStorage.getItem(localStorage.key(i));
@@ -129,16 +133,22 @@ console.log(obj.quantity)
 const newQuantity =Number(quantity)+Number(obj.quantity)
 console.log(newQuantity)
 quantity=newQuantity
-
-
-  } else {
+}
+    
+     
+  else {
     quantity=quantity
+    console.log(quantity)
+  }
+  // return quantity
+  
   }
   return quantity
-  
-} 
-  
+    }
+    
+    
+ 
 
 
 
-}
+
