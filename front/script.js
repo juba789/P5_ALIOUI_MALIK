@@ -1,31 +1,29 @@
-fetch('http://localhost:3000/api/products')
-.then(rep=>rep.json())
-.then((data)=>initData(data))
+// Récupération  des données de l'API 
 
-function initData(data){
+fetch('http://localhost:3000/api/products')
+.then(rep=>rep.json())           /*La réponse sera au format JSON*/
+.then((data)=>initData(data))    /*Ce qui a été reçu est nommé "data"et j'appel  la fonction d'affichage des données initData*/
+
+function initData(data){       /*la fonction d'affichage des produit pour la page d'accueil*/
   
-   /* const _id=data[0]._id
-    const imageUrl=data[0].imageUrl
-    const altTxt =data[0].altTxt
-    const name =data[0].name
-    const description=data[0].description */
+  
    
     for    (let i=0;i<data.length;i++) {
         console.log(data[i])
 
     
-    const {_id,imageUrl,altTxt,name,description}= data[i]
-    const anchor =createAnchor(_id)
-    const article = document.createElement("article")
-    const image =createImage(imageUrl,altTxt)
-    const h3 =createH3(name)
-    const p =createParagraphe(description)
-    integrationElementToArticle(article,image,h3,p)
-    integrationInItems(anchor,article) 
+    const {_id,imageUrl,altTxt,name,description}= data[i]   /* les données en forme de tableau*/
+    const anchor =createAnchor(_id)                         /*fonction de création de l'encre a createAnchor*/
+    const article = document.createElement("article")        /*création de la balise article*/
+    const image =createImage(imageUrl,altTxt)                /*appel de la fonction de création de l'image*/
+    const h3 =createH3(name)                                 /*appel de la fonction de création du titre H3*/
+    const p =createParagraphe(description)                   /*appel de la fonction de création du paragraphe de description*/
+    integrationElementToArticle(article,image,h3,p)          /* appel de la fonction d'integration des element dans la balise "article*/
+    integrationInItems(anchor,article)                       /*appel de la fonction d'intégration des balise"articles et "a"dans la section*/     
 
 }
   }
-
+// Les scripts des différentes fonction appelées 
 function integrationElementToArticle(article,image,h3,p){
     article.appendChild(image)
     article.appendChild(h3)
@@ -40,7 +38,7 @@ function createAnchor(id){
 }
 
 function integrationInItems(anchor,article){
-    const items =document.querySelector("#items")
+    const items =document.querySelector("#items")         /*je cible la balise section avec l'id "items"*/
     if (items != null){
         items.appendChild(anchor)
         anchor.appendChild(article)
