@@ -3,7 +3,7 @@ exposeItems ()                                        /*j'appel la fonction qui 
 cart.forEach((item)=>CreateItemsDOM(item))           /* une boucle qui affichera les article selon la fonction CreateItemsDOM*/
 
 const orderButton=document.querySelector("#order")
-orderButton.addEventListener("click",(e)=>submitForm(e) )
+orderButton.addEventListener("click",(e)=>submitForm(e) )       /* je rajoute un evenement au clic sur "commander!" lié à la fonction submit fomr que je définirai en bas*/
 
 
    function exposeItems (){
@@ -35,7 +35,7 @@ function exposeTotalQuantity(item){
 const totalQuantity =document.querySelector("#totalQuantity")
 const total =cart.reduce((total,item)=>Number(total)+Number(item.quantity),0) /* je dis que pour chaque quantity je le rajoute au total en partant de 0*/
 totalQuantity.textContent=total
-console.log(total)
+
 }
 
 function exposeTotalPrice(item){
@@ -45,7 +45,7 @@ cart.forEach((item)=> {                                                   /* au 
     const totalUnitPrice =item.price*item.quantity                       /* pour chaque produit je multiplie sa quantité au prix unitaire*/
     total +=totalUnitPrice                                              /*que je rajoute au total (initialisé à 0)*/
 });
-console.log(total)
+
 totalPrice.textContent=total                                          /*et j'affiche le totale sur la page web*/
 }
 // Le script de la fonction makeCartContent qui à son tour appellera les fonctions "makeDescription" et "makeSettings" qui créeront respcetivement la descriptions des produits et les emplacements "quantité" et "supprimer" 
@@ -121,12 +121,14 @@ input.addEventListener("input",()=> updatePriceAndQuantity(item.id,input.value,i
 quantity.appendChild(input)
 settings.appendChild(quantity)
 }
+
 // La fonction qui recalcule le prix et la quantité global selon le clic à l'input 
-function updatePriceAndQuantity(id,newValue,item){                  /*newValue est le paramètre representant input.value,la nouvelle valeur*/
-const itemToUpdate= cart.find((item)=>item.id===id )               /*La méthode find() renvoie la valeur du premier élément trouvé dans le tableau qui respecte la condition donnée par la fonction de test passée en argument. Sinon, la valeur undefined est renvoyée.ici je cherche l'element dont je veux changer la quantité  à travers son id */
-itemToUpdate.quantity=  Number(newValue)                          /* et je récupère la nouvelle valeur*/
+function updatePriceAndQuantity(id,newValue,item){              /*newValue est le paramètre representant input.value,la nouvelle valeur*/  
+const color =item.color                 
+const itemToUpdate= cart.find((item)=>item.id===id && item.color===color )             /*La méthode find() renvoie la valeur du premier élément trouvé dans le tableau qui respecte la condition donnée par la fonction de test passée en argument. Sinon, la valeur undefined est renvoyée.ici je cherche l'element dont je veux changer la quantité  à travers son id */
+itemToUpdate.quantity=  Number(newValue)                                              /* et je récupère la nouvelle valeur*/
 item.quantity=itemToUpdate.quantity                              /* je relie la nouvelle valeur à item.quantity*/
-console.log(cart) 
+ 
 exposeTotalPrice()                                               /* j'appel la fonction de calcule du prix total  qui sera modifié avec la nouvelle quantité*/
 exposeTotalQuantity()                                           /* j'appel la fonction de calcule de la quantité totale qui sera modifiée avec la nouvelle valeur*/
 saveNewDataToCache(item)                                       /* j'appel la fonction qui écrasera les données du cache afin de les mettre à jours avec la nouvelle valeur de quantité*/
@@ -138,6 +140,7 @@ const dataToSave=JSON.stringify(item)                           /*le produit ite
 const key =`${item.id}-${item.color}`                          /*je crée la clé Key*/
 localStorage.setItem(key,dataToSave)                          /* et j'associé les deux avec setItem*/
 }
+
 // Le script de la fonction makeDescription qui crée toutes les descrption du produit dans le panier
 function makeDescription(item){
 const description =document.createElement("div")
@@ -182,51 +185,55 @@ function makeImageDiv(item){
 }
 
 function submitForm(e){
-    e.preventDefault()
-    if (cart.length===0){
-        alert("Votre panier est vide") 
+    e.preventDefault()                                               /* je bloque la fonctionnalité par défault de rafraichissement de la page au clic*/
+    if (cart.length===0){                                           /* içi je dis que s'il n'y a aucun produit */          
+        alert("Votre panier est vide")                             /* le message indiqué s'affiche*/
         return
     } 
 
-//    if  (formAccept()) return 
-//    if  (emailAccept()) return
 
-if ( firstNameAccept()) return
+
+// içi les fonctions de conditions pour chaques champs ,si elles sont valides l'execution du script continu,dans le cas contraire le "return" bloque l'execution 
+if ( firstNameAccept()) return                                 
 if ( lastNameAccept()) return
 if ( addressAccept()) return
 if ( cityAccept()) return
 if ( emailAccept()) return
-  
+
+// la constante body appel la fonction makeRequestBody qui créera la structure des données à envoyer au backend
 const body =makeRequestBody()
-fetch("http://localhost:3000/api/products/order",{
-    method:"POST",
-    body:JSON.stringify(body),
+fetch("http://localhost:3000/api/products/order",{                           /* j'utilise fetch vers le liens cité*/
+    method:"POST",                                                          /* j'envoie des données donc j'utilise la methode:POST*/
+    body:JSON.stringify(body),                                             /* et le body en format string avec stringify */                                    
     headers:{
         "Content-type":"application/json"
     }
 })
 .then(rep=>rep.json())
 .then((data)=> {
-const orderId =data.orderId
-window.location.href="confirmation.html"+"?orderId="+orderId
+const orderId =data.orderId                                              
+window.location.href="confirmation.html"+"?orderId="+orderId            /* l'utilisateur sera dirigé vers le lien cité avec un orderId remis que nous passons au paramétres  */
 console.log(data)
 } )  
 
 }
+
+// Ici les fonction de validations des différents champs avec le premier champs expliqué ,les autres fonctions seront identique niveau script 
 function firstNameAccept(){
-    const firstName=document.getElementById('firstName')
-    const regexName=/^[A-zÃÃ-€º' -]*$/
-    let firstNameErrorMsg=document.getElementById('firstNameErrorMsg')
-    if(firstName.value==''){
-firstNameErrorMsg.innerHTML='le champs est requis'
+    const firstName=document.getElementById('firstName')                                   /* je vise le champs firstName*/
+    const regexName=/^[A-zÃÃ-€º' -]*$/                                                    /* j'initialise avec regex la condition d'acceptation*/      
+    let firstNameErrorMsg=document.getElementById('firstNameErrorMsg')                   /* je crée la variable qui sera lié au champs pour le message d'erreur*/
+    if(firstName.value==''){                                                            /* si le champs est vide */
+firstNameErrorMsg.innerHTML='le champs est requis'                                     /*voici le message qui s'affichera*/
 return true
 } 
-else if ( regexName.test(firstName.value)===false){  
-firstNameErrorMsg.innerHTML='le champs est incorrect'
+else if ( regexName.test(firstName.value)===false){                                 /* sinon si le champs ne remplit pas la condition du format regex fixé plus haut*/
+firstNameErrorMsg.innerHTML='le champs est incorrect'                              /* voiçi le message qui s'affichera*/
 return true
   }
-return false
+return false                                                                    /*  sinon il retournera false et le script continuera son execution*/
 }
+// Script pour la validation du prénom
 function lastNameAccept(){
     const lastName=document.getElementById('lastName')
     const regexName= /^[A-zÃÃ-€º' -]*$/
@@ -241,6 +248,7 @@ return true
   }
 return false
 }
+// Script pour la validation de l'adresse 
 function addressAccept(){
     const address=document.getElementById('address')
     const addressRegex = /([0-9]{1,}) ?([A-zÃÃ-€º,' -\. ]*)/
@@ -255,6 +263,8 @@ return true
   }
 return false
 }
+
+// Script pour la validation du champs de la ville 
 function cityAccept(){
     const city=document.getElementById('city')
     const regexName=/^[A-zÃÃ-€º' -]*$/
@@ -269,6 +279,8 @@ return true
   }
 return false
 }
+
+// Script pour la validation de l'email 
 function emailAccept(){
     const email=document.getElementById('email')
     const emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
@@ -285,37 +297,10 @@ return true
 return false
 }
 
-
-  
-/*function emailAccept(){
-const email=document.querySelector("#email").value
-const regex =  /^[A-Za-z0-9+_.-]+@(.+)$/
-if ( regex.test(email)===false){
-    alert("email invalide")
-    return true
-}
-return false
-
-}
-
- function formAccept(){
-    const form =document.querySelector(".cart__order__form")
-    const inputs =document.querySelectorAll("input")
-    inputs.forEach( (input)=>{
-if (input.value===""){
-    alert("Veuillez remplir tous les champs")
-    return true
-}
-return false
-})
-
-} */
-
-
-
+// Le script de la fonction makeRequestBody qui crééra la structure des données envoyées au backend
 function makeRequestBody(){
 const form=document.querySelector(".cart__order__form")
-const firstName=form.elements.firstName.value    /*form.elements récuoère les élément rempli dans un formulaire*/
+const firstName=form.elements.firstName.value    /*form.elements récupère les élément rempli dans un formulaire*/
 const lastName=form.elements.lastName.value
 const address=form.elements.address.value
 const city=form.elements.city.value
@@ -328,21 +313,22 @@ const email=form.elements.email.value
        city: city,
        email: email,
      },
-     products: idForCache()
+     products: idForCache()                  /* ici products fera appel à la fonction idForCache pour nous retourner les id*/
     
   }
 
 return body
 }
 
+// Le script de la fonction idForCache de création de l'id pour "products" 
 function idForCache(){
 const numberProducts= localStorage.length
-const ids =[]
+const ids =[]                                              /* je crée une array vide*/
 for (let i = 0; i < numberProducts; i++) {
-    const key = localStorage.key(i)
-   console.log(key) 
-   const id = key.split("-")[0]/* ici avec split je transforme les key en tableau et je lui demande de prendre l'élement 0 donc l'id*/
-   ids.push(id)
+    const key = localStorage.key(i)                    /* je récupére pour chaque boucle la clé key indexé "i"*/
+
+   const id = key.split("-")[0]                      /* ici avec split je transforme les key en tableau et je lui demande de prendre l'élement 0 donc l'id juste avant le "-"  */
+   ids.push(id)                                     /*et je le rajoute    à l'array "ids" */           
 }
 return ids
 }

@@ -1,25 +1,25 @@
 // Récupération  des données de l'API 
 
 fetch('http://localhost:3000/api/products')
-.then(rep=>rep.json())           /*La réponse sera au format JSON*/
-.then((data)=>initData(data))    /*Ce qui a été reçu est nommé "data"et j'appel  la fonction d'affichage des données initData*/
+.then(rep=>rep.json())                           /*La réponse sera au format JSON*/
+.then((data)=>initData(data))                   /*Ce qui a été reçu est nommé "data"et j'appel  la fonction d'affichage des données initData*/
 
 function initData(data){       /*la fonction d'affichage des produit pour la page d'accueil*/
   
   
    
     for    (let i=0;i<data.length;i++) {
-        console.log(data[i])
+        
 
     
-    const {_id,imageUrl,altTxt,name,description}= data[i]   /* les données en forme de tableau*/
-    const anchor =createAnchor(_id)                         /*fonction de création de l'encre a createAnchor*/
-    const article = document.createElement("article")        /*création de la balise article*/
-    const image =createImage(imageUrl,altTxt)                /*appel de la fonction de création de l'image*/
-    const h3 =createH3(name)                                 /*appel de la fonction de création du titre H3*/
-    const p =createParagraphe(description)                   /*appel de la fonction de création du paragraphe de description*/
-    integrationElementToArticle(article,image,h3,p)          /* appel de la fonction d'integration des element dans la balise "article*/
-    integrationInItems(anchor,article)                       /*appel de la fonction d'intégration des balise"articles et "a"dans la section*/     
+    const {_id,imageUrl,altTxt,name,description}= data[i]              /* les données en forme de tableau*/
+    const anchor =createAnchor(_id)                                    /*fonction de création de l'encre a createAnchor*/
+    const article = document.createElement("article")                  /*création de la balise article*/
+    const image =createImage(imageUrl,altTxt)                          /*appel de la fonction de création de l'image*/
+    const h3 =createH3(name)                                           /*appel de la fonction de création du titre H3*/
+    const p =createParagraphe(description)                             /*appel de la fonction de création du paragraphe de description*/
+    integrationElementToArticle(article,image,h3,p)                    /* appel de la fonction d'integration des element dans la balise "article*/
+    integrationInItems(anchor,article)                                 /*appel de la fonction d'intégration des balise"articles et "a"dans la section*/     
 
 }
   }

@@ -9,15 +9,6 @@ fetch(`http://localhost:3000/api/products/${id}`)   /*avec fetch et l'id nous de
 .then(rep=>rep.json())
 .then((data)=>initReponse(data))                 /*Ce qui a été reçu est nommé "data"et j'appel  la fonction d'affichage des données initReponse*/
 
-/*altTxt: "Photo d'un canapé bleu, deux places"
-colors: (3) ['Blue', 'White', 'Black']
-description: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-imageUrl: "http://localhost:3000/images/kanap01.jpeg"
-name: "Kanap Sinopé"
-price: 1849
-_id: "107fb5b75607497b96722bda5b504926" */
-
- 
 // La fonction initReponse d'affichage du produit dans la page product avec pour paramètre Kanap et qui appel d'autres fonctions
 function initReponse(Kanap){
 const altTxt = Kanap.altTxt
@@ -36,7 +27,7 @@ createTitle(name)                      /*fonction de   création du nom du produ
 createPrice(price)                     /*fonction de création de l'emplacement prix */
 createDescription(description)         /*fonction de création de la description du produit */
 createColors(colors)                   /*fonction de création de l'emplacement choix de couleur pour l'article*/
-console.log(Kanap)
+// console.log(Kanap)
 
   }
 
@@ -52,24 +43,24 @@ const parent =document.querySelector(".item__img")
 
 return image 
 }
-
+// Script de création du nom du produit
 function createTitle(name){
-    // const h1=document.querySelector("#title")   
-    // if (h1 != null){               /* je n'aurais pas besoin d'utiliser la condition pour les autres vu que les cibles existent surement*/
-        // h1.textContent=name   }
 document.querySelector("#title").textContent= name 
 
 }
 
+// Script de création du nom du prix du produit
 function createPrice(price){
 document.querySelector("#price").textContent=price
 }
 
+// Script de création du nom de la description du produit
 function createDescription(description){
 document.querySelector("#description").textContent=description
 
 }
 
+// Script de création des option de couleur pour le  produit
 function createColors(colors){
     const select =document.querySelector("#colors")
     colors.forEach(color => {                           /* je crée une boucle qui pour chaque élément "couleur" lui associera la couleur de l'option*/
@@ -119,28 +110,23 @@ const keyProduct =`${id}-${color}`
 const newQuantity = ""
 
   
-
-  
-
- for (let i = 0; i < localStorage.length; i++) {                                /* pour chaque élément se trouvant dans le panier à travers le localStorage*/
-  if (keyProduct==localStorage.key(i)) {                                       /* ici la condition se porte sur les éléments existant déja dans le panier (identifiés à ltravers leurs clés)*/
+for (let i = 0; i < localStorage.length; i++) {                                /* pour chaque élément se trouvant dans le panier à travers le localStorage*/
+  if (keyProduct==localStorage.key(i)) {                                       /* ici la condition se porte sur les éléments existant déja dans le panier (identifiés à travers leurs clés)*/
 const valueStorage = localStorage.getItem(localStorage.key(i));               /*je prends avec getItem les données du produit du panier */
 const obj = JSON.parse(valueStorage);                                        /* que je transforme en objet */
-console.log(obj)
 
-console.log(quantity)
-console.log(obj.quantity)
+
+
 const newQuantity =Number(quantity)+Number(obj.quantity)                 /*newQuantity sera donc egale à la quantité du produit dans le panier ajouté à celle fixé dans la page product*/               
-console.log(newQuantity)
+
 quantity=newQuantity
 }
     
      
   else {                                                             /* si l'article n'existe pas dans le panier , la quantité sera celle de la page product */
     quantity=quantity
-    console.log(quantity)
-  }
-  // return quantity
+    }
+  
   
   }
   return quantity
