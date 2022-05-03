@@ -3,7 +3,7 @@ exposeItems ()                                        /*j'appel la fonction qui 
 cart.forEach((item)=>CreateItemsDOM(item))           /* une boucle qui affichera les article selon la fonction CreateItemsDOM*/
 
 const orderButton=document.querySelector("#order")
-orderButton.addEventListener("click",(e)=>submitForm(e) )       /* je rajoute un evenement au clic sur "commander!" lié à la fonction submit fomr que je définirai en bas*/
+orderButton.addEventListener("click",(e)=>submitForm(e) )       /* je rajoute un evenement au clic sur "commander!" lié à la fonction submit form que je définirai en bas*/
 
 
    function exposeItems (){
@@ -19,6 +19,7 @@ orderButton.addEventListener("click",(e)=>submitForm(e) )       /* je rajoute un
 
 
 }
+
 // La fonction CreateItemsDOM qui à son tour appellera d'autres fonctions avec des scripts qui afficheronts les articles dans la page
 function CreateItemsDOM(item){
 const article = makeArticle(item)                                     /*l'appel de la fonction de création  de la balise "article"*/
@@ -26,18 +27,19 @@ const imageDiv = makeImageDiv(item)                                  /* l'appel 
 article.appendChild(imageDiv)                                       /*j'integre "image" dans "article"*/
 const cardItemContent = makeCartContent(item)                      /* appel de la fonction de création des descriptions du produit*/
 article.appendChild(cardItemContent)                              /* que j'integre dans la balise "article"*/
-displayArticle(article)                                          /*L'appel de la fonction qui ajoutera la balise article dans la section à l'id "cart__items" */ 
-exposeTotalQuantity(item)
-exposeTotalPrice(item)
+displayArticle(article)                                          /*appel de la fonction qui ajoutera la balise article dans la section à l'id "cart__items" */ 
+exposeTotalQuantity(item)                                       /*appel de la fonction qui affiche la quantité totale*/
+exposeTotalPrice(item)                                         /*appel de la fonction qui affichera le prix total*/
 }
 
+// Script de la fonction qui calcule et affiche la quantité totale 
 function exposeTotalQuantity(item){
 const totalQuantity =document.querySelector("#totalQuantity")
 const total =cart.reduce((total,item)=>Number(total)+Number(item.quantity),0) /* je dis que pour chaque quantity je le rajoute au total en partant de 0*/
 totalQuantity.textContent=total
-
 }
 
+// Script de la fonction qui calcule et affiche le prix total 
 function exposeTotalPrice(item){
     let total =0
 const totalPrice= document.querySelector("#totalPrice")
@@ -45,9 +47,9 @@ cart.forEach((item)=> {                                                   /* au 
     const totalUnitPrice =item.price*item.quantity                       /* pour chaque produit je multiplie sa quantité au prix unitaire*/
     total +=totalUnitPrice                                              /*que je rajoute au total (initialisé à 0)*/
 });
-
 totalPrice.textContent=total                                          /*et j'affiche le totale sur la page web*/
 }
+
 // Le script de la fonction makeCartContent qui à son tour appellera les fonctions "makeDescription" et "makeSettings" qui créeront respcetivement la descriptions des produits et les emplacements "quantité" et "supprimer" 
 function makeCartContent(item){
 const cardItemContent=document.createElement("div")
@@ -161,7 +163,7 @@ return description
 // Le script de la fonction qui ajoutera la balise article dans la section à l'id "cart__items" 
 function displayArticle(article) {
 document.querySelector("#cart__items").appendChild(article)
-  }
+}
 
 // Le script de la fonction makeArticle qui créera la balise "article" 
 function makeArticle(item){

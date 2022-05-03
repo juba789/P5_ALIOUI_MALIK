@@ -22,12 +22,12 @@ itemPrice =price
 imgUrl=imageUrl
 altText=altTxt
 articleName =name
-createImage(imageUrl,altTxt)           /*fonction de création de lo'image du produit*/
+createImage(imageUrl,altTxt)           /*fonction de création de l'image du produit*/
 createTitle(name)                      /*fonction de   création du nom du produit*/
 createPrice(price)                     /*fonction de création de l'emplacement prix */
 createDescription(description)         /*fonction de création de la description du produit */
 createColors(colors)                   /*fonction de création de l'emplacement choix de couleur pour l'article*/
-// console.log(Kanap)
+
 
   }
 
@@ -100,8 +100,8 @@ console.log(infoStorage)
 alert("L'article est ajouté à votre panier")                 /* je mentionne à l'utilisateur que l'article est ajouté à son panier */
   }
 })
-// const product=(localStorage.key(1)) 
-// je Définit la fonction pour la quantité qui du produit qui s'affichera dans la page panier 
+
+// je Définit la fonction pour la quantité  du produit qui s'affichera dans la page panier 
 function quantityTotal(id){
 const color =document.querySelector("#colors").value
 let quantity =document.querySelector("#quantity").value
@@ -110,7 +110,7 @@ const keyProduct =`${id}-${color}`
 const newQuantity = ""
 
   
-for (let i = 0; i < localStorage.length; i++) {                                /* pour chaque élément se trouvant dans le panier à travers le localStorage*/
+for (let i = 0; i < localStorage.length; i++) {                                 /* pour chaque élément se trouvant dans le panier à travers le localStorage*/
   if (keyProduct==localStorage.key(i)) {                                       /* ici la condition se porte sur les éléments existant déja dans le panier (identifiés à travers leurs clés)*/
 const valueStorage = localStorage.getItem(localStorage.key(i));               /*je prends avec getItem les données du produit du panier */
 const obj = JSON.parse(valueStorage);                                        /* que je transforme en objet */

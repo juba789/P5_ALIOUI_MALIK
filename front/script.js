@@ -4,6 +4,7 @@ fetch('http://localhost:3000/api/products')
 .then(rep=>rep.json())                           /*La réponse sera au format JSON*/
 .then((data)=>initData(data))                   /*Ce qui a été reçu est nommé "data"et j'appel  la fonction d'affichage des données initData*/
 
+
 function initData(data){       /*la fonction d'affichage des produit pour la page d'accueil*/
   
   
@@ -29,6 +30,7 @@ function integrationElementToArticle(article,image,h3,p){
     article.appendChild(h3)
     article.appendChild(p)
 }
+
 
 function createAnchor(id){
     const anchor =document.createElement("a")
@@ -73,4 +75,5 @@ p.classList.add("productDescription")
 return p
 
 }
+   
    
