@@ -24,6 +24,8 @@ function initData(data){       /*la fonction d'affichage des produit pour la pag
 
 }
   }
+
+  
 // Les scripts des différentes fonction appelées 
 function integrationElementToArticle(article,image,h3,p){
     article.appendChild(image)
