@@ -5,9 +5,9 @@ const id =  urlParam.get("id")                     /* avec get("id")nous demando
 let itemPrice = 0   
 let imgUrl,altText,articleName =               
 
-fetch(`http://localhost:3000/api/products/${id}`)   /*avec fetch et l'id nous demandons toutes les information liées à la page */
+fetch(`http://localhost:3000/api/products/${id}`)   
 .then(rep=>rep.json())
-.then((data)=>initReponse(data))                 /*Ce qui a été reçu est nommé "data"et j'appel  la fonction d'affichage des données initReponse*/
+.then((data)=>initReponse(data))                 
 
 // La fonction initReponse d'affichage du produit dans la page product avec pour paramètre Kanap et qui appel d'autres fonctions
 function initReponse(Kanap){
@@ -80,6 +80,10 @@ const quantity =document.querySelector("#quantity").value          /*quantity se
 if(color==null || color===''|| quantity==null ||quantity== 0){     /*je rajoute que si l'un des emplacement est vide ..*/  
 alert("Veuillez choisir une couleur et la quantité !!")            /*un message s'affichera pour rappeler l'utilisateur de choisir une couleur et une quantité */
   }
+  else if(quantity<0)
+  {
+    alert("vous ne pouvez pas choisr une quantité négative")
+  }
 else{                                               /* sinon*/
   const key =`${id}-${color}`                      /* je crée une clé avec une association id et color */
   const infoStorage ={                            /* et je définit un objet les informations du produit */
@@ -87,12 +91,13 @@ id:id,
 color:color,
 // quantity: Number(quantity),/* Number transforme une chaine de caractére en nombre*/
 quantity:quantityTotal(id),                      /* pour la quantité je fais appel à la fonction quantityTotal*/
-price:itemPrice,
+// price:itemPrice,
 altTxt:altText,
 imageUrl:imgUrl,
 name:articleName,
-
 }
+
+
 localStorage.setItem(key,JSON.stringify(infoStorage))       /* j'intègre le tout dans le local storage avec la clé définit plus haut et les données du produit (infostorage)*/
 // window.location.href="cart.html"    /* au clic avec addEventListener on sera dirigé vers cart.html grace à window.location
                                     //  et son attribut href*/
