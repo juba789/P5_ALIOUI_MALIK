@@ -2,7 +2,7 @@ const cart=[]
 
 console.log(cart)                                       
 exposeItems ()  
-cart.forEach((item)=>CreateItemsDOM(item))
+cart.forEach((item)=>idPrice(item))
 
 
 console.log(cart)
@@ -38,7 +38,40 @@ orderButton.addEventListener("click",(e)=>submitForm(e) )
       cart.push(itemObject)
   }
  
-}
+}function idPrice(item){
+     
+  const id =item.id
+   
+  
+     fetch(`http://localhost:3000/api/products/${id}`)   
+    .then(rep=>rep.json())
+    .then((data)=> rep(data,item))
+  
+    
+    }
+  
+  
+   function rep(data,item){
+   
+    console.log(data.price)
+     const addItemPrice = {
+       price:data.price
+     };
+     const finalResult = Object.assign(item,addItemPrice);
+     console.log(item.price)
+  var result =item.price 
+  console.log (result)
+  CreateItemsDOM(item)
+  exposeTotalPrice()
+  
+     
+  }
+  
+  
+  
+
+
+
 
 
 
@@ -195,9 +228,9 @@ localStorage.setItem(key,dataToSave)                          /* et j'associé l
 }
 
 // Le script de la fonction makeDescription qui crée toutes les descrption du produit dans le panier
-function makeDescription(item){
+ function makeDescription(item){
   console.log(item)
-  console.log(item.price)
+  console.log()
 const description =document.createElement("div")
 description.classList.add("cart__item__content__description")
 const h2 =document.createElement("h2")
@@ -209,11 +242,11 @@ p2.textContent=item.price+"€"
 description.appendChild(h2)
 description.appendChild(p)
 description.appendChild(p2)
- idPrice(item)
+//  idPrice(item)
 exposeTotalPrice()
 return description
 }
-
+/*
 function idPrice(item){
      
 const id =item.id
@@ -242,7 +275,7 @@ return item.price
    
 }
 
-
+*/
 
 
 
