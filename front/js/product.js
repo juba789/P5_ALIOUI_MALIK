@@ -11,6 +11,7 @@ let imgUrl, altText, articleName =
   fetch(`http://localhost:3000/api/products/${id}`)
     .then(rep => rep.json())
     .then((data) => initReponse(data))
+    .catch((err)=>{alert("aucune produit trouvé ne correspond à cet id")})
 
 // La fonction initReponse d'affichage du produit dans la page product avec pour paramètre Kanap et qui appel d'autres fonctions
 function initReponse(Kanap) {
@@ -100,7 +101,7 @@ function quantityTotal(id) {
     const color = document.querySelector("#colors").value
     let quantity = document.querySelector("#quantity").value
     const keyProduct = `${id}-${color}`
-    const newQuantity = ""
+    const newQuantity = ""   
     for (let i = 0; i < localStorage.length; i++) {
         if (keyProduct == localStorage.key(i)) {
             const valueStorage = localStorage.getItem(localStorage.key(i));

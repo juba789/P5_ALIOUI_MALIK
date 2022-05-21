@@ -2,7 +2,8 @@
 fetch('http://localhost:3000/api/products')
     .then(rep => rep.json()) 
     .then((data) => initData(data)) 
-
+    .catch((err)=>alert("impossible de charger les données"))
+    
 //La fonction qui utilise les données récupérées de l'API et qui appelle les fonctions qui crééront les différents éléments de la page d'accueil
 function initData(data) {
     //les données récupérées sont placées en forme de tableau

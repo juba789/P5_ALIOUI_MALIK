@@ -104,7 +104,7 @@ function deleteItem(item) {
     if (result) {
         const itemToDelete = cart.findIndex((element) => element.id === item.id && element.color === item.color)
         cart.splice(itemToDelete, 1) /*avec splice j'enleve un élément à partir de l'élément à l'index 0*/
-        exposeTotalPrice() //
+        exposeTotalPrice() 
         exposeTotalQuantity()
         deleteToStorage(item)
         deleteArticleToDom(item)
@@ -278,7 +278,7 @@ function addressAccept() {
 // Script pour la validation du champs de la ville 
 function cityAccept() {
     const city = document.getElementById('city')
-    const regexName = /^([A-zÃÃ-€º' -]{3,})*$/
+    const regexName = /^([A-zÃÃ-€º' -])*$/
     let cityErrorMsg = document.getElementById('cityErrorMsg')
     if (city.value == '') {
         cityErrorMsg.innerHTML = 'le champs est requis'
